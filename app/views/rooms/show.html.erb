@@ -1,3 +1,4 @@
+<%= turbo_stream_from @room %>
 <div class="row">
     <div class="col-3 bg-dark text-white">
         <h4>Users</h4>
@@ -10,12 +11,11 @@
         <% end %>
     </div>
     <div class="col-9">
-        <p><%= @room.id %></p>
-        <% @messages.each do |message| %>
-            <p><%= message.created_at %></p>
-            <p><%= message.body %></p>
-        <% end %>
-        <div class="row">
+        <div class="card" style="height: 40rem;">
+            <p><%= @room.id %></p>
+            <%= turbo_frame_tag :messages do %>
+                <%= render @messages %>
+            <% end %>
             <div class="row">
                 <%= form_for([@room, @room.messages.build]) do |f| %>
                     <%= f.text_area :body %>
@@ -23,6 +23,7 @@
                 <% end %>
             </div>
         </div>
+
     </div>
 
 </div>

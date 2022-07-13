@@ -2,13 +2,14 @@ class MessagesController < ApplicationController
 
     def create
         @room = Room.find(params[:room_id])
-        @message = @room.messages.create(message_params)
-        @message.room_id = @room.id
-        @message.user_id = current_user.id
+        @new_message = @room.messages.create(message_params)
+        @new_message.room_id = @room.id
+        @new_message.user_id = current_user.id
 
-        @message.save
+        @new_message.save
 
-        redirect_back(fallback_location: rooms_path(params[:room_id]))
+        room = @new_message.room
+        @new_message.broadcast_append_to @new_message.room
     end
 
     private
