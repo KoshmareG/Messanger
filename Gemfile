@@ -54,6 +54,7 @@ gem "mini_magick"
 
 gem "jquery-rails"
 
+gem "file_validators"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
