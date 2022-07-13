@@ -47,7 +47,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # Redirect to edit user registration page after update user information
-  def after_update_path_for
+  def after_update_path_for(resource)
     edit_user_registration_url
   end
 
@@ -58,7 +58,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
+    devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:avatar, :username, :gender, :birthday, :country, :city, :password, :current_password, :password_confirmation) }
   end
 
   # The path used after sign up.

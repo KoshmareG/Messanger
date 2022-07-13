@@ -1,43 +1,48 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="row justify-content-md-center">
+  <div class="col-4">
+    <h3 class="fw-normal">Изменение профиля</h3>
+    <h4 class="fw-light">Основная информация</h4>
+    <div class="mb-3">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %> 
+        <label class="form-label mb-1">Логин</label>
+          <%= f.text_field :username, class: "form-control mb-2" %>
+        <label class="form-label mb-1">Ваш пол</label>
+          <%= f.select :gender, options_for_select(["Мужской", "Женский"], selected: current_user.gender), {}, {class: "form-select mb-2"} %>
+        <label class="form-label mb-1">День рождения</label>
+          <%= f.text_field :birthday, type: "date", class: "form-control mb-2" %>
+        <label class="form-label mb-1">Страна</label>
+          <%= f.text_field :country, class: "form-control mb-2" %>
+        <label class="form-label mb-1">Город</label>
+          <%= f.text_field :city, class: "form-control mb-3" %>
+        <div class="d-grid grap-2">
+          <%= f.button "Изменить", type: "submit", class: "btn btn-primary mb-3" %>
+        </div>
+      <% end %>
+      <h4 class="fw-light">Изменение пароля</h4>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <label class="form-label mb-1">Новый пароль</label>
+          <%= f.password_field :password, class: "form-control mb-0" %>
+          <div class="form-text mb-2">Пароль должен состоять минимум из <%= @minimum_password_length %> символов</div>
+        <label class="form-label mb-1">Повторите пароль</label>
+          <%= f.password_field :password_confirmation, class: "form-control mb-2" %>
+        <label class="form-label mb-1">Старый пароль</label>
+          <%= f.password_field :current_password, class: "form-control mb-3" %>
+        <div class="d-grid grap-2">
+          <%= f.button "Изменить пароль", type: "submit", class: "btn btn-primary mb-3" %>
+        </div>
+      <% end %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <h4 class="fw-light">Удаление аккаунта</h4>
+        <div class="d-grid grap-2">
+          <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#deleteUserAccount" aria-expanded="false">Удалить аккаунт</button>
+        </div>
+        <div class="collapse" id="deleteUserAccount">
+          <p class="fw-light">После удаления аккаунта восстановить его будет невозможно. Будьте осторожны.</p>
+          <div class="d-grid grap-2">
+            <%= button_to "Удалить аккаунт", registration_path(resource_name), form: {data: {turbo_confirm: 'Вы действительно хотите удалить аккаунт?'}}, method: :delete, class: "btn btn-outline-danger" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+</div>
