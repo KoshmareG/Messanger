@@ -1,6 +1,27 @@
 <div class="row justify-content-md-center">
   <div class="col-4">
-    <h3 class="fw-normal">Изменение профиля</h3>
+    <h3 class="fw-normal mb-1">Изменение профиля</h3>
+    <div class="mb-2">
+      <%= link_to "Вернуться к профилю", profile_path(current_user.id), class: "fw-light", style: "text-decoration: none; color: black" %>
+    </div>
+    <h4 class="fw-light">Изменить аватар</h4>
+    <div class="row mb-3">
+      <div class="col-auto">
+        <% if current_user.avatar.present? %>
+          <%= image_tag(current_user.avatar.variant(resize_to_fill: [120, 120]), class: "user-avarat-style") %>
+        <% else %>
+          <%= link_to image_tag("default_user_avatar.png", size: "120x120", class: "user-avarat-style"), root_path %>
+        <% end %>
+      </div>
+      <div class="col flex-column align-self-center">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+          <%= f.file_field :avatar, class: "form-control form-control-sm mb-3" %>
+          <div class="d-grid grap-2">
+            <%= f.button "Загрузить", type: "submit", class: "btn btn-primary btn-sm" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
     <h4 class="fw-light">Основная информация</h4>
     <div class="mb-3">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %> 
