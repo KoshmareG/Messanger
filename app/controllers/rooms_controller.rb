@@ -1,6 +1,14 @@
 class RoomsController < ApplicationController
     before_action :authenticate_user!
 
+    def create_user_to_room user, room
+        user_to_room = UserToRoom.new
+        user_to_room.user_id = user.id
+        user_to_room.room_id = room.id
+
+        return user_to_room
+    end
+
     def index
         @users = User.where.not(id: current_user.id)
         
@@ -44,13 +52,9 @@ class RoomsController < ApplicationController
             room.room_status = params[:room_status].to_i
             room.save
 
-            user_to_room = UserToRoom.new
-            user_to_room.user_id = current_user.id
-            user_to_room.room_id = room.id
+            user_to_room = create_user_to_room(current_user, room)
 
-            invite_user_to_room = UserToRoom.new
-            invite_user_to_room.user_id = invite_user.id
-            invite_user_to_room.room_id = room.id
+            invite_user_to_room = create_user_to_room(invite_user, room)
 
             user_to_room.save
             invite_user_to_room.save
@@ -60,9 +64,7 @@ class RoomsController < ApplicationController
             room = Room.find(params[:room_id])
             invite_user = User.find(params[:user_id])
 
-            invite_user_to_room = UserToRoom.new
-            invite_user_to_room.user_id = invite_user.id
-            invite_user_to_room.room_id = room.id
+            invite_user_to_room = create_user_to_room(invite_user, room)
 
             invite_user_to_room.save
 
