@@ -1,2 +1,22 @@
-<p><%= @user.id %></p>
-<%= link_to 'Изменить', edit_user_registration_path, data: {turbo: false} %>
+<div class="row justify-content-md-center">
+    <div class="col-xxl-4 col-xl-6 col-md-6 col">
+        <div class="row mb-3">
+            <div class="col-auto">
+                <% if @user.avatar.present? %>
+                    <%= image_tag(@user.avatar.variant(resize_to_fill: [200, 200]), class: "user-avarat-style") %>
+                <% else %>
+                    <%= image_tag("default_user_avatar.png", size: "200x200", class: "user-avarat-style") %>
+                <% end %>
+            </div>
+            <div class="col flex-column align-self-center">
+                <h2 class="fw-normal"><%= @user.username %></h2>
+                <h5 class="fw-light"><%= @user.birthday.present? ? @user.birthday.to_time.strftime("%d.%m.%Y") : "" %></h5>
+                <h5 class="fw-light"><%= @user.country.present? ? @user.country + ", ": "" %><%= @user.city %></h5>
+                <% if current_user.id == @user.id %>
+                    <%= link_to 'Редактировать профиль', edit_user_registration_path, data: {turbo: false}, style: "text-decoration: none" %>
+                <% end %>
+            </div>
+        </div>
+        <%= render "links_to_rooms" %>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="row mb-3">
+    <div class="col">
+        <% if @privat_room.present? %>
+        <div class="d-grid grap-2">
+            <%= link_to "Отправить личиное сообщение", room_path(@privat_room), data: {turbo: false}, class: "btn btn-primary" %>
+        </div>
+        <% else %>
+            <%= form_tag rooms_url, method: :post do %>
+                <%= hidden_field_tag "user_id", @user.id %>
+                <%= hidden_field_tag "room_status", 0 %>
+            <div class="d-grid grap-2">
+                <%= submit_tag "Отправить личиное сообщение", data: {turbo: false}, class: "btn btn-primary" %>
+            </div>
+            <% end %>
+        <% end %>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col">
+        <div class="d-grid grap-2 mb-2">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#invite_to_room" aria-expanded="false">Пригласить в беседу</button>
+        </div>
+        <div class="collapse mb-2" id="invite_to_room">
+            <div class="card card-body">
+                <%= form_tag rooms_url, method: :post do %>
+                    <%= hidden_field_tag "user_id", @user.id %>
+                    <%= hidden_field_tag "room_status", 1 %>
+                <div class="d-grid grap-2 mb-3">
+                    <%= submit_tag "Создать новую беседу", data: {turbo: false}, class: "btn btn-primary" %>
+                </div>
+                <% end %>
+                <ul class="list-group list-group-flush">
+                    <% if @common_rooms.present? %>
+                        <p class="fs-5 lh-1" style="text-align: center">Продолжить общение</p>
+                        <% @common_rooms.each do |room| %>
+                            <%= link_to render(partial: "room_item", collection: @common_rooms, as: :room), room_path(room), class: " list-group-item list-group-item-action" %>  
+                        <% end %>
+                    <% end %>
+                    <% if @conv_rooms.present? %>
+                        <p class="fs-5 lh-1" style="text-align: center">Пригласить в беседу</p>
+                        <% @conv_rooms.each do |room| %>
+                            <%= button_to render(partial: "room_item", collection: @conv_rooms, as: :room), rooms_url(room_status: 2, room_id: room.id, user_id: @user.id), method: :post, data: {turbo: false}, style: "border-left: none; border-right: none; border-top: none", class: "list-group-item list-group-item-action" %>
+                        <% end %>
+                    <% else %>
+                        <li class="list-group-item" style="text-align: center">Нет бесед для приглашения</li>
+                    <% end %>
+                </ul>
+            </div>
+          </div>
+    </div>
+</div>
