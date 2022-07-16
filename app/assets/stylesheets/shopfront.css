@@ -10,8 +10,3 @@
     background: rgba(29, 29, 31, 0.8);
     backdrop-filter: blur(1px) saturate(2) brightness(0.8);
 }
-
-.home-button{
-    border: none;
-    background: transparent;
-}
