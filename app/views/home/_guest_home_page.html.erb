@@ -1,0 +1,24 @@
+<div class="container-fluid height-75">
+    <div class="row justify-content-md-center height-75">
+        <div class="col-xxl-4 col-xl-6 col-md-6 col align-self-center">
+            <div style="text-align: center">
+                <div class="mb-3">
+                    <%= image_tag ("messanger_logo.png"), class: "img-fluid" %>
+                </div>
+                <p class="fs-1">Добро пожаловать</p>
+                <div class="row">
+                    <div class="col">
+                        <div class="d-grid grap-2 mb-3">
+                            <%= link_to "Войти", new_user_session_url, data: {turbo: false}, class: "btn btn-primary" %>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid grap-2 mb-3">
+                            <%= link_to "Регистрация", new_user_registration_url, data: {turbo: false}, class: "btn btn-primary" %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

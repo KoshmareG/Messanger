@@ -1,6 +1,7 @@
-<h1>Home#index</h1>
-<% if current_user.present? %>
-    <p>Hello <%= current_user.email %></p>
-<% else %>
-    <%= link_to 'Регистрация', new_user_registration_path, data: {turbo: false} %>
-<% end %>
+<div>
+    <% if current_user.present? %>
+        <%= render "user_home_page" %>
+    <% else %>
+        <%= render "guest_home_page" %>
+    <% end %>
+</div>
