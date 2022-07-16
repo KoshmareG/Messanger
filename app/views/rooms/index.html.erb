@@ -1,18 +1,10 @@
-<div class="row">
-    <div class="col-3 bg-dark text-white">
-        <h4>Users</h4>
-        <% @users.each do |user| %>
-            <p><%= user.email %><%= button_to '+', rooms_url(:user_id => user.id), method: :post %></p>
-        <% end %>
-        <h4>Rooms</h4>
-        <% @rooms.each do |room| %>
-            <p><%= link_to room.id, room_path(room.id) %></p>
-        <% end %>
-
+<div class="row justify-content-md-center">
+    <div class="col-xxl-4 col-xl-6 col-md-6 col">
+        <p class="fs-2" style="text-align: center">Чаты</p>
+        <ul class="list-group list-group-flush">
+            <% @user_rooms.each do |room| %>
+                <%= link_to render("room_item", room: room), rooms_path(room.id), class: "list-group-item" %>
+            <% end %>
+        </ul>
     </div>
-    <div class="col-9">
-        <h5>Выберите диалог и начните общаться</h5>
-
-    </div>
-
 </div>

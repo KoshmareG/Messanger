@@ -1,6 +1,10 @@
 class RoomsController < ApplicationController
     before_action :authenticate_user!
 
+    before_action do
+        ActiveStorage::Current.host = request.base_url
+    end
+
     def create_user_to_room user, room
         user_to_room = UserToRoom.new
         user_to_room.user_id = user.id
@@ -10,13 +14,24 @@ class RoomsController < ApplicationController
     end
 
     def index
-        @users = User.where.not(id: current_user.id)
-        
-        user_rooms = []
-        all_user_rooms = UserToRoom.where(user_id: current_user.id)
-        all_user_rooms.each { |room| user_rooms << room.room_id }
+        all_user_rooms = []
+        user_rooms = UserToRoom.where(user_id: current_user.id)
+        user_rooms.each { |room| all_user_rooms << room.room_id }
 
-        @rooms = Room.find(user_rooms)
+        @user_rooms = Room.where(id: all_user_rooms)
+
+        @user_rooms.each do |room|
+            if room.room_status == 0
+                user_to_room = UserToRoom.where(room_id: room.id)
+                user_to_room.each do |user_room|
+                    unless user_room.user_id == current_user.id
+                    user = User.find(user_room.user_id)
+                    room.username = user.username
+                    room.avatar = user.avatar.url
+                    end
+                end
+            end
+        end
     end
 
     def show
