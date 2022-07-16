@@ -17,10 +17,10 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg bg-light mb-3">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark navbar-style mb-3">
       <div class="container-fluid">
-        <a class="navbar-brand"><%= link_to "Messanger", root_path, style: "text-decoration: none; color: black" %></a>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="mx-auto">
+          <%= button_to image_tag("messanger_logo_mini.png", height: "20"), root_path, class: "home-button" %>
         </div>
       </div>
     </nav>
