@@ -17,6 +17,8 @@
                 <% end %>
             </div>
         </div>
-        <%= render "links_to_rooms" %>
+        <% unless current_user.id == @user.id %>
+            <%= render "links_to_rooms" %>
+        <% end %>
     </div>
 </div>
