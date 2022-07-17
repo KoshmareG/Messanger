@@ -5,7 +5,8 @@
             <div class="card-header text-bg-light">
                 Featured
             </div>
-            <div class="card-body">
+            <div class="card-body overflow-auto" id="scrollbar">
+                <% add_additional_info_to_messages @messages %>
                 <%= turbo_frame_tag :messages do %>
                     <%= render @messages %>
                 <% end %>

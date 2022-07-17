@@ -1,5 +1,23 @@
 module RoomsHelper
 
+    def add_additional_info_to_messages messages
+        users_id = []
+        messages.each { |message| users_id << message.user_id }
+        users_id.uniq!
+
+        users = []
+        users_id.each { |user_id| users << User.find(user_id) }
+
+        messages.each do |message|
+            users.each do |user|
+                if message.user_id == user.id
+                    message.name == user.username
+                    message.avatar == user.avatar.url
+                end
+            end
+        end
+    end
+
     def add_additional_info_to_rooms user_rooms
         user_rooms.each do |room|
             if room.room_status == 0
@@ -18,7 +36,7 @@ module RoomsHelper
     def display_room_avatar room
         if room.room_status == 0
             if room.avatar.present?
-                image_tag(room.avatar, size: "60x60", class: "user-avarat-style")
+                image_tag(room.avatar, style: "width: 60px; height: 60px; object-fit: cover;", class: "user-avarat-style")
             else
                 image_tag("default_message_icon.png", size: "60x60", class: "user-avarat-style")
             end

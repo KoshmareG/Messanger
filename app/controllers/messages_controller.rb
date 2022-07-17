@@ -5,7 +5,9 @@ class MessagesController < ApplicationController
         @new_message = @room.messages.create(message_params)
         @new_message.room_id = @room.id
         @new_message.user_id = current_user.id
-
+        @room.last_message = @new_message.body
+        
+        @room.save
         @new_message.save
 
         room = @new_message.room
