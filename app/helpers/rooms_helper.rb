@@ -11,8 +11,8 @@ module RoomsHelper
         messages.each do |message|
             users.each do |user|
                 if message.user_id == user.id
-                    message.name == user.username
-                    message.avatar == user.avatar.url
+                    message.name = user.username
+                    message.avatar = user.avatar.url
                 end
             end
         end

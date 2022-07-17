@@ -1,5 +1,9 @@
 class MessagesController < ApplicationController
 
+    before_action do
+        ActiveStorage::Current.host = request.base_url
+    end
+
     def create
         @room = Room.find(params[:room_id])
         @new_message = @room.messages.create(message_params)
@@ -9,6 +13,9 @@ class MessagesController < ApplicationController
         
         @room.save
         @new_message.save
+
+        @new_message.name = current_user.username
+        @new_message.avatar = current_user.avatar.url
 
         room = @new_message.room
         @new_message.broadcast_append_to @new_message.room
