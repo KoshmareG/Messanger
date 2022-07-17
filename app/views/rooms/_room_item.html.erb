@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-auto ps-0 pe-0">
+        <%= display_room_avatar room %>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <p class="fw-semibold lh-1"><%= display_room_name room %></p>
+            </div>
+            <div class="col-auto align-self-end">
+                <p class="fs-6 lh-1 text-muted"><%= room.updated_at.to_time.strftime("%d.%m.%Y %H:%M") %></p>
+            </div>
+        </div>
+        <div class="row">
+            <p class="lh-1"><%= room.last_message %></p>  
+        </div>
+    </div>
+</div>

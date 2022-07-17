@@ -1,9 +1,9 @@
 <div class="row justify-content-md-center">
     <div class="col-xxl-4 col-xl-6 col-md-6 col">
         <p class="fs-2" style="text-align: center">Чаты</p>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group">
             <% @user_rooms.each do |room| %>
-                <%= link_to render("room_item", room: room), rooms_path(room.id), class: "list-group-item" %>
+                <%= link_to render("room_item", room: room), rooms_path(room.id), class: "list-group-item list-group-item-action" %>
             <% end %>
         </ul>
     </div>
