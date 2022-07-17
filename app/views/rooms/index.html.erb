@@ -2,6 +2,7 @@
     <div class="col-xxl-4 col-xl-6 col-md-6 col">
         <p class="fs-2" style="text-align: center">Чаты</p>
         <ul class="list-group">
+            <% add_additional_info_to_rooms @user_rooms %>
             <% @user_rooms.each do |room| %>
                 <%= link_to render("room_item", room: room), rooms_path(room.id), class: "list-group-item list-group-item-action" %>
             <% end %>

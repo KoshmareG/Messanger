@@ -19,19 +19,6 @@ class RoomsController < ApplicationController
         user_rooms.each { |room| all_user_rooms << room.room_id }
 
         @user_rooms = Room.where(id: all_user_rooms)
-
-        @user_rooms.each do |room|
-            if room.room_status == 0
-                user_to_room = UserToRoom.where(room_id: room.id)
-                user_to_room.each do |user_room|
-                    unless user_room.user_id == current_user.id
-                    user = User.find(user_room.user_id)
-                    room.username = user.username
-                    room.avatar = user.avatar.url
-                    end
-                end
-            end
-        end
     end
 
     def show
