@@ -4,7 +4,7 @@
         <ul class="list-group">
             <% add_additional_info_to_rooms @user_rooms %>
             <% @user_rooms.each do |room| %>
-                <%= link_to render("room_item", room: room), rooms_path(room.id), class: "list-group-item list-group-item-action" %>
+                <%= link_to render("room_item", room: room), room_path(room.id), class: "list-group-item list-group-item-action" %>
             <% end %>
         </ul>
     </div>
