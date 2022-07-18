@@ -1,5 +1,19 @@
 module RoomsHelper
 
+    def add_additional_info_to_rooms_show room
+        users_to_room = UserToRoom.where(room_id: room.id)
+
+        if room.room_status == 0
+            users_to_room.each do |user_to_room|
+                unless user_to_room.user_id == current_user.id
+                    @user = User.find(user_to_room.user_id)
+                end
+            end
+            room.username = @user.username
+            room.avatar = @user.avatar.url
+        end
+    end
+
     def add_additional_info_to_messages messages
         users_id = []
         messages.each { |message| users_id << message.user_id }
@@ -18,7 +32,7 @@ module RoomsHelper
         end
     end
 
-    def add_additional_info_to_rooms user_rooms
+    def add_additional_info_to_rooms_index user_rooms
         user_rooms.each do |room|
             if room.room_status == 0
                 user_to_room = UserToRoom.where(room_id: room.id)

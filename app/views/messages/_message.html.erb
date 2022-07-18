@@ -1,12 +1,16 @@
 <div class="row msg-row-<%= message.user_id %>">
-    <div class="col-auto ps-0 pe-0 pb-0 pt-0">
-        <p>ris</p>
+    <div class="col-auto ps-2 pe-2 pb-0 pt-0">
+        <% if message.avatar.present? %>
+            <%= image_tag(message.avatar, style: "width: 50px; height: 50px; object-fit: cover;", class: "user-avarat-style shadow") %>
+        <% else %>
+            <%= image_tag("default_message_icon.png", size: "50x50", class: "user-avarat-style shadow") %>
+        <% end %>
     </div>
-    <div class="col-auto">
-        <div class="card mb-2 msg-<%= message.user_id %> msg-style">
+    <div class="col-auto ps-0 pe-0">
+        <div class="card mb-2 msg-<%= message.user_id %> msg-style shadow">
             <div class="card-body ps-2 pe-2 pb-0 pt-2 lh-1">
                 <p class="fw-semibold msg-username-font-size mb-1"><%= message.name %></p>
-                <p class="mb-1"><%= message.body %></p>
+                <p class="mb-1 msg-font-size"><%= message.body %></p>
                 <p class="text-end msg-time-font-size mb-1"><%= message.created_at.to_time.strftime("%H:%M") %></p>
             </div>
         </div>

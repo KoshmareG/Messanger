@@ -39,6 +39,10 @@
     font-size: 70%;
 }
 
+.msg-font-size{
+    font-size: 90%;
+}
+
 .msg-style{
     border-radius: 15px;
     border: none;
