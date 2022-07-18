@@ -32,9 +32,14 @@
 }
 
 .msg-time-font-size{
-    font-size: 70%;
+    font-size: 60%;
 }
 
 .msg-username-font-size{
-    font-size: 75%;
+    font-size: 70%;
+}
+
+.msg-style{
+    border-radius: 15px;
+    border: none;
 }

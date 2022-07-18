@@ -1,11 +1,20 @@
+<style>
+    <%= ".msg-#{current_user.id}" %>{
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+        <%= ".msg-row-#{current_user.id}" %>{
+        flex-direction: row-reverse !important;
+    }
+</style>
 <%= turbo_stream_from @room %>
 <div class="row justify-content-md-center">
-    <div class="col-xxl-4 col-xl-6 col-md-6 col">
+    <div class="col-xxl-6 col-xl-8 col-md-8 col">
         <div class="card height-90">
             <div class="card-header text-bg-light">
                 123
             </div>
-            <div class="card-body overflow-auto" id="scrollbar">
+            <div class="card-body overflow-auto bg-light" id="scrollbar">
                 <% add_additional_info_to_messages @messages %>
                 <%= turbo_frame_tag :messages do %>
                     <%= render @messages %>
@@ -15,7 +24,7 @@
                 <%= form_for([@room, @room.messages.build]) do |f| %>
                     <div class="row">
                         <div class="col pe-0">
-                            <%= f.text_field :body, class: "form-control form-control-sm" %>
+                            <%= f.text_field :body, autocomplete: :off, class: "form-control form-control-sm" %>
                         </div>
                         <div class="col-auto">
                             <%= f.button "\u2B9D", type: "submit", class: "btn btn-primary btn-sm rounded-circle" %>
