@@ -55,7 +55,7 @@ module RoomsHelper
             if room.avatar.present?
                 image_tag(room.avatar, style: "width: #{size_arr[code]}px; height: #{size_arr[code]}px; object-fit: cover;", class: "user-avarat-style")
             else
-                image_tag("default_message_icon.png", size: "#{size_arr[code]}x#{size_arr[code]}", class: "user-avarat-style")
+                image_tag("default_user_avatar.png", size: "#{size_arr[code]}x#{size_arr[code]}", class: "user-avarat-style")
             end
         else
             if room.image.present?
