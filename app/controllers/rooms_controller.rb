@@ -33,6 +33,25 @@ class RoomsController < ApplicationController
         
         if params[:room_status].present? && (params[:room_status].to_i == 0 or params[:room_status].to_i == 1)
 
+            if params[:room_status].to_i == 0
+                user_to_rooms = []
+                UserToRoom.where(user_id: current_user.id).each { |user_to_room| user_to_rooms << user_to_room.room_id }
+
+                invite_user_to_rooms = []
+                UserToRoom.where(user_id: params[:user_id]).each { |invite_user_to_room| invite_user_to_rooms << invite_user_to_room.room_id }
+                
+                rooms_id = user_to_rooms & invite_user_to_rooms
+
+                rooms = Room.where(id: rooms_id)
+
+                rooms.each do |room|
+                    if room.room_status == 0
+                        redirect_to room_path(room)
+                    end
+                end
+            end
+               
+            #create new room private or common room
             room = Room.new
             invite_user = User.find(params[:user_id])
 
@@ -55,6 +74,7 @@ class RoomsController < ApplicationController
 
         elsif params[:room_status].present? && params[:room_status].to_i == 2
 
+            #add new user to common room
             room = Room.find(params[:room_id])
             invite_user = User.find(params[:user_id])
 
