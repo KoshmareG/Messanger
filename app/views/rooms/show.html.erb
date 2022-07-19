@@ -14,25 +14,25 @@
         <div class="card height-90">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-auto">
-
+                    <div class="col-auto align-self-center">
+                        <%= link_to "\u276E Назад", rooms_url, style: "text-decoration: none", class: "fs-6" %>
                     </div>
-                    <div class="col">
-
+                    <div class="col align-self-center">
+                        <p class="fs-5 fw-semibold lh-1 mb-0" style="text-align: center"><%= display_room_name @room %></p>
                     </div>
                     <div class="col-auto align-self-end pt-0 pb-0">
                         <%= display_room_avatar @room, 1 %>
                     </div>
                 </div>
             </div>
-            <div class="card-body overflow-auto bg-light" id="scrollbar">
+            <div class="card-body overflow-auto bg-light" id="messageBox">
                 <% add_additional_info_to_messages @messages %>
                 <%= turbo_frame_tag :messages do %>
                     <%= render @messages %>
                 <% end %>
             </div>
             <div class="card-footer">
-                <%= form_for([@room, @room.messages.build]) do |f| %>
+                <%= form_for([@room, @room.messages.build], data: { controller: "room_refresh", action: "turbo:submit-end->room_refresh#clearInput" }) do |f| %>
                     <div class="row">
                         <div class="col pe-0">
                             <%= f.text_field :body, autocomplete: :off, class: "form-control form-control-sm" %>
