@@ -1,5 +1,5 @@
-<div class="container-fluid height-75">
-    <div class="row justify-content-md-center height-75">
+<div class="container-fluid height-80">
+    <div class="row justify-content-md-center height-80">
         <div class="col-xxl-4 col-xl-6 col-md-6 col align-self-center">
             <div style="text-align: center">
                 <div class="mb-3">
@@ -13,6 +13,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-grid grap-2 mb-3">
+                            <%= link_to "Найти пользователя", search_url, data: {turbo: false}, class: "btn btn-primary mb-3" %>
                             <%= link_to "Перейти к сообщениям", rooms_url, data: {turbo: false}, class: "btn btn-primary" %>
                         </div>
                     </div>
