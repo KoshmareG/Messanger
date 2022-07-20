@@ -6,5 +6,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:create, :destroy]
   end
 
+  get "/search", to: "search#index"
+
   resources :profiles, only: [:show]
 end
