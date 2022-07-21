@@ -19,10 +19,14 @@ class RoomsController < ApplicationController
         user_rooms.each { |room| all_user_rooms << room.room_id }
 
         @user_rooms = Room.where(id: all_user_rooms)
+
+        helpers.add_additional_info_to_rooms_index @user_rooms
     end
 
     def show
         @room = Room.find(params[:id])
+
+        helpers.add_additional_info_to_rooms_show @room
 
         @messages = Message.where(room_id: params[:id])
     end
@@ -86,5 +90,21 @@ class RoomsController < ApplicationController
 
         redirect_to room_path(room)
     end
+
+    def update
+        @room = Room.find(params[:id])
+
+        @room.update(room_params)
+
+        redirect_back(fallback_location: root_path)
+    end
+
+    private
+
+    def room_params
+        params.require(:room).permit(:image, :name)
+    end
+
+    private
 
 end

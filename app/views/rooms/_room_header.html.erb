@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-auto align-self-center">
+        <%= link_to "\u276E Назад", rooms_url, data: {turbo: false}, style: "text-decoration: none", class: "fs-6" %>
+    </div>
+    <div class="col align-self-center d-flex justify-content-center">
+        <button class="fs-5 fw-semibold lh-1 mb-0 message-settings" style="text-align: center" type="button" data-bs-toggle="collapse" data-bs-target="#messageSettings">
+            <%= @room.name %>
+        </button>
+    </div>
+    <div class="col-auto align-self-end pt-0 pb-0">
+        <%= display_room_avatar @room, 1 %>
+    </div>
+</div>
+<div class="collapse" id="messageSettings">
+    <div class="row">
+        <% if @room.room_status.to_i == 0 %>
+            <%= render "private_room_settings" %>
+        <% else %>
+            <%= render "common_room_settings" %>
+        <% end %>
+    </div>
+</div>
