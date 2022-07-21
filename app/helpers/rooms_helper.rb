@@ -9,7 +9,7 @@ module RoomsHelper
                     @user = User.find(user_to_room.user_id)
                 end
             end
-            room.username = @user.username
+            room.name = @user.username
             room.avatar = @user.avatar.url
         end
     end
@@ -39,7 +39,7 @@ module RoomsHelper
                 user_to_room.each do |user_room|
                     unless user_room.user_id == current_user.id
                     user = User.find(user_room.user_id)
-                    room.username = user.username
+                    room.name = user.username
                     room.avatar = user.avatar.url
                     end
                 end
@@ -59,17 +59,11 @@ module RoomsHelper
             end
         else
             if room.image.present?
+                image_tag(room.image, style: "width: #{size_arr[code]}px; height: #{size_arr[code]}px; object-fit: cover;", class: "user-avarat-style")
             else
                 image_tag("default_message_icon.png", size: "#{size_arr[code]}x#{size_arr[code]}", class: "user-avarat-style")
             end
         end
     end
 
-    def display_room_name room
-        if room.room_status == 0
-            room.username
-        else
-            room.name
-        end
-    end
 end
