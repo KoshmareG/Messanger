@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="col-auto ps-0 pe-0">
+<div class="row room-item-height">
+    <div class="col-auto align-self-center ps-0 pe-0">
         <%= display_room_avatar room, 0 %>
     </div>
     <div class="col">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="row">
-            <p class="lh-1"><%= room.last_message %></p>  
+            <p class="lh-1"><%= room.last_message.truncate(45) %></p>  
         </div>
     </div>
 </div>

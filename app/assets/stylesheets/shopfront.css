@@ -71,3 +71,7 @@
 .max-msg-width{
     max-width: 75%;
 }
+
+.room-item-height{
+    height: 4em;
+}
