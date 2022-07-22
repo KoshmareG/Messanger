@@ -26,7 +26,6 @@ class MessagesController < ApplicationController
                 end
                 @room.broadcast_remove_to "rooms_#{user_to_room.user_id}".to_sym, target: "room_#{room.id}"
                 @room.broadcast_prepend_to "rooms_#{user_to_room.user_id}".to_sym
-                #@room.broadcast_replace_to "rooms_#{user_to_room.user_id}".to_sym, target: "room_#{room.id}"
             end
         end
     end
