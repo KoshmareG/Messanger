@@ -2,7 +2,7 @@
     <div class="col-auto ps-2 pe-2 pb-0 pt-0">
         <%= display_message_avatar message %>
     </div>
-    <div class="col-auto ps-0 pe-0">
+    <div class="col-auto ps-0 pe-0 max-msg-width">
         <div class="card mb-2 msg-<%= message.user_id %> msg-style shadow">
             <div class="card-body ps-2 pe-2 pb-0 pt-2 lh-1">
                 <p class="fw-semibold msg-username-font-size mb-1"><%= message.name %></p>
