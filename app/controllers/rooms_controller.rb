@@ -64,12 +64,12 @@ class RoomsController < ApplicationController
             room.user_to_rooms.create(user_id: current_user.id)
 
             if room.save
+                @room = room
                 if params[:room_status].to_i == 0
-                    @room = room
                     @room.name = current_user.username
                     @room.avatar = current_user.avatar.url
-                    @room.broadcast_prepend_to "rooms_#{invite_user.id}".to_sym
                 end
+                @room.broadcast_prepend_to "rooms_#{invite_user.id}".to_sym
             end
 
         elsif params[:room_status].present? && params[:room_status].to_i == 2
