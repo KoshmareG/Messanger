@@ -5,20 +5,30 @@ class MessagesController < ApplicationController
     end
 
     def create
-        @room = Room.find(params[:room_id])
-        @new_message = @room.messages.create(message_params)
-        @new_message.room_id = @room.id
-        @new_message.user_id = current_user.id
-        @room.last_message = @new_message.body
-        
-        @room.save
-        @new_message.save
+        room = Room.find(params[:room_id])
+        new_message = room.messages.create(body: message_params[:body], room_id: room.id, user_id: current_user.id)
 
-        @new_message.name = current_user.username
-        @new_message.avatar = current_user.avatar.url
+        room.update(last_message: new_message.body)
 
-        room = @new_message.room
-        @new_message.broadcast_append_to @new_message.room
+        if new_message.save
+            @new_message = new_message
+
+            @new_message.name = current_user.username
+            @new_message.avatar = current_user.avatar.url
+
+            @new_message.broadcast_append_to @new_message.room
+
+            @room = room
+            @room.user_to_rooms.each do |user_to_room|
+                if @room.room_status.to_i == 0
+                    @room.name = current_user.username
+                    @room.avatar = current_user.avatar.url
+                end
+                @room.broadcast_remove_to "rooms_#{user_to_room.user_id}".to_sym, target: "room_#{room.id}"
+                @room.broadcast_prepend_to "rooms_#{user_to_room.user_id}".to_sym
+                #@room.broadcast_replace_to "rooms_#{user_to_room.user_id}".to_sym, target: "room_#{room.id}"
+            end
+        end
     end
 
     private
