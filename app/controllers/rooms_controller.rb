@@ -79,6 +79,11 @@ class RoomsController < ApplicationController
             invite_user = User.find(params[:user_id])
 
             room.user_to_rooms.create(user_id: invite_user.id)
+
+            if room.save
+                @room = room
+                @room.broadcast_prepend_to "rooms_#{invite_user.id}".to_sym
+            end
         end
 
         redirect_to room_path(room)
