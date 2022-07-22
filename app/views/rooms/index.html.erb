@@ -1,9 +1,10 @@
+<%= turbo_stream_from "rooms_#{current_user.id}".to_sym %>
 <div class="row justify-content-md-center">
     <div class="col-xxl-4 col-xl-6 col-md-6 col">
         <p class="fs-2" style="text-align: center">Чаты</p>
         <ul class="list-group">
-            <% @user_rooms.each do |room| %>
-                <%= link_to render("room_item", room: room), room_path(room.id), class: "list-group-item list-group-item-action" %>
+            <%= turbo_frame_tag :rooms do %>
+                <%= render @rooms %>
             <% end %>
         </ul>
     </div>

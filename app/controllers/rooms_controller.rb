@@ -5,22 +5,14 @@ class RoomsController < ApplicationController
         ActiveStorage::Current.host = request.base_url
     end
 
-    def create_user_to_room user, room
-        user_to_room = UserToRoom.new
-        user_to_room.user_id = user.id
-        user_to_room.room_id = room.id
-
-        return user_to_room
-    end
-
     def index
         all_user_rooms = []
         user_rooms = UserToRoom.where(user_id: current_user.id)
         user_rooms.each { |room| all_user_rooms << room.room_id }
 
-        @user_rooms = Room.where(id: all_user_rooms)
+        @rooms = Room.where(id: all_user_rooms)
 
-        helpers.add_additional_info_to_rooms_index @user_rooms
+        helpers.add_additional_info_to_rooms_index @rooms
     end
 
     def show
@@ -37,6 +29,7 @@ class RoomsController < ApplicationController
         
         if params[:room_status].present? && (params[:room_status].to_i == 0 or params[:room_status].to_i == 1)
 
+            #Protection against re-creating a private room
             if params[:room_status].to_i == 0
                 user_to_rooms = []
                 UserToRoom.where(user_id: current_user.id).each { |user_to_room| user_to_rooms << user_to_room.room_id }
@@ -51,30 +44,34 @@ class RoomsController < ApplicationController
                 rooms.each do |room|
                     if room.room_status == 0
                         redirect_to room_path(room)
+                        return
                     end
                 end
             end
                
             #create new room private or common room
-            room = Room.new
             invite_user = User.find(params[:user_id])
 
             if params[:room_status].to_i == 0
-                room.name = 'privat_room_username'
+                room_name = 'privat_room_username'
             elsif params[:room_status].to_i == 1
-                room.name = 'Новая беседа'
+                room_name = 'Новая беседа'
             end
 
-            room.last_message = 'Сообщений пока нет'
-            room.room_status = params[:room_status].to_i
+            room = Room.create(last_message: 'Сообщений пока нет', room_status: params[:room_status].to_i, name: room_name)
+
+            room.user_to_rooms.create(user_id: invite_user.id)
+            room.user_to_rooms.create(user_id: current_user.id)
+
             room.save
 
-            user_to_room = create_user_to_room(current_user, room)
-
-            invite_user_to_room = create_user_to_room(invite_user, room)
-
-            user_to_room.save
-            invite_user_to_room.save
+            @room = room
+            
+            if params[:room_status].to_i == 0
+                @room.name = current_user.username
+                @room.avatar = current_user.avatar.url
+                @room.broadcast_append_to "rooms_#{invite_user.id}".to_sym
+            end
 
         elsif params[:room_status].present? && params[:room_status].to_i == 2
 
@@ -82,10 +79,7 @@ class RoomsController < ApplicationController
             room = Room.find(params[:room_id])
             invite_user = User.find(params[:user_id])
 
-            invite_user_to_room = create_user_to_room(invite_user, room)
-
-            invite_user_to_room.save
-
+            room.user_to_rooms.create(user_id: invite_user.id)
         end
 
         redirect_to room_path(room)
